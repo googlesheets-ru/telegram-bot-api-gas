@@ -46,7 +46,7 @@
     let className = '';
     let newRowIndex = -1;
     els.forEach((el) => {
-      if (el.tagName === 'H3') switcher = el.textContent === 'Available types';
+      if (el.tagName === 'H3') switcher = el.textContent === 'Available types' || el.textContent === 'Getting updates';
       if (!switcher) return;
       if (el.tagName === 'H4') {
         className = el.textContent;
