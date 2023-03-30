@@ -1,5 +1,39 @@
 /**
  * @typedef {{
+ *   update_id: number;
+ *   message?: TelegramBot.Message;
+ *   edited_message?: TelegramBot.Message;
+ *   channel_post?: TelegramBot.Message;
+ *   edited_channel_post?: TelegramBot.Message;
+ *   inline_query?: TelegramBot.InlineQuery;
+ *   chosen_inline_result?: TelegramBot.ChosenInlineResult;
+ *   callback_query?: TelegramBot.CallbackQuery;
+ *   shipping_query?: TelegramBot.ShippingQuery;
+ *   pre_checkout_query?: TelegramBot.PreCheckoutQuery;
+ *   poll?: TelegramBot.Poll;
+ *   poll_answer?: TelegramBot.PollAnswer;
+ *   my_chat_member?: TelegramBot.ChatMemberUpdated;
+ *   chat_member?: TelegramBot.ChatMemberUpdated;
+ *   chat_join_request?: TelegramBot.ChatJoinRequest;
+ * }} TelegramBot.Update
+ */
+
+/**
+ * @typedef {{
+ *   url: string;
+ *   has_custom_certificate: boolean;
+ *   pending_update_count: number;
+ *   ip_address?: string;
+ *   last_error_date?: number;
+ *   last_error_message?: string;
+ *   last_synchronization_error_date?: number;
+ *   max_connections?: number;
+ *   allowed_updates?: string[];
+ * }} TelegramBot.WebhookInfo
+ */
+
+/**
+ * @typedef {{
  *   id: number;
  *   is_bot: boolean;
  *   first_name: string;
@@ -102,6 +136,8 @@
  *   pinned_message?: TelegramBot.Message;
  *   invoice?: TelegramBot.Invoice;
  *   successful_payment?: TelegramBot.SuccessfulPayment;
+ *   user_shared?: TelegramBot.UserShared;
+ *   chat_shared?: TelegramBot.ChatShared;
  *   connected_website?: string;
  *   write_access_allowed?: TelegramBot.WriteAccessAllowed;
  *   passport_data?: TelegramBot.PassportData;
@@ -156,7 +192,7 @@
  *   width: number;
  *   height: number;
  *   duration: number;
- *   thumb?: TelegramBot.PhotoSize;
+ *   thumbnail?: TelegramBot.PhotoSize;
  *   file_name?: string;
  *   mime_type?: string;
  *   file_size?: number;
@@ -173,7 +209,7 @@
  *   file_name?: string;
  *   mime_type?: string;
  *   file_size?: number;
- *   thumb?: TelegramBot.PhotoSize;
+ *   thumbnail?: TelegramBot.PhotoSize;
  * }} TelegramBot.Audio
  */
 
@@ -181,7 +217,7 @@
  * @typedef {{
  *   file_id: string;
  *   file_unique_id: string;
- *   thumb?: TelegramBot.PhotoSize;
+ *   thumbnail?: TelegramBot.PhotoSize;
  *   file_name?: string;
  *   mime_type?: string;
  *   file_size?: number;
@@ -195,7 +231,7 @@
  *   width: number;
  *   height: number;
  *   duration: number;
- *   thumb?: TelegramBot.PhotoSize;
+ *   thumbnail?: TelegramBot.PhotoSize;
  *   file_name?: string;
  *   mime_type?: string;
  *   file_size?: number;
@@ -208,7 +244,7 @@
  *   file_unique_id: string;
  *   length: number;
  *   duration: number;
- *   thumb?: TelegramBot.PhotoSize;
+ *   thumbnail?: TelegramBot.PhotoSize;
  *   file_size?: number;
  * }} TelegramBot.VideoNote
  */
@@ -334,6 +370,20 @@
 
 /**
  * @typedef {{
+ *   request_id: number;
+ *   user_id: number;
+ * }} TelegramBot.UserShared
+ */
+
+/**
+ * @typedef {{
+ *   request_id: number;
+ *   chat_id: number;
+ * }} TelegramBot.ChatShared
+ */
+
+/**
+ * @typedef {{
  *   start_date: number;
  * }} TelegramBot.VideoChatScheduled
  */
@@ -386,11 +436,34 @@
 /**
  * @typedef {{
  *   text: string;
+ *   request_user?: TelegramBot.KeyboardButtonRequestUser;
+ *   request_chat?: TelegramBot.KeyboardButtonRequestChat;
  *   request_contact?: boolean;
  *   request_location?: boolean;
  *   request_poll?: TelegramBot.KeyboardButtonPollType;
  *   web_app?: TelegramBot.WebAppInfo;
  * }} TelegramBot.KeyboardButton
+ */
+
+/**
+ * @typedef {{
+ *   request_id: number;
+ *   user_is_bot?: boolean;
+ *   user_is_premium?: boolean;
+ * }} TelegramBot.KeyboardButtonRequestUser
+ */
+
+/**
+ * @typedef {{
+ *   request_id: number;
+ *   chat_is_channel: boolean;
+ *   chat_is_forum?: boolean;
+ *   chat_has_username?: boolean;
+ *   chat_is_created?: boolean;
+ *   user_administrator_rights?: TelegramBot.ChatAdministratorRights;
+ *   bot_administrator_rights?: TelegramBot.ChatAdministratorRights;
+ *   bot_is_member?: boolean;
+ * }} TelegramBot.KeyboardButtonRequestChat
  */
 
 /**
@@ -537,15 +610,20 @@
  *   status: string;
  *   user: TelegramBot.User;
  *   is_member: boolean;
+ *   can_send_messages: boolean;
+ *   can_send_audios: boolean;
+ *   can_send_documents: boolean;
+ *   can_send_photos: boolean;
+ *   can_send_videos: boolean;
+ *   can_send_video_notes: boolean;
+ *   can_send_voice_notes: boolean;
+ *   can_send_polls: boolean;
+ *   can_send_other_messages: boolean;
+ *   can_add_web_page_previews: boolean;
  *   can_change_info: boolean;
  *   can_invite_users: boolean;
  *   can_pin_messages: boolean;
  *   can_manage_topics: boolean;
- *   can_send_messages: boolean;
- *   can_send_media_messages: boolean;
- *   can_send_polls: boolean;
- *   can_send_other_messages: boolean;
- *   can_add_web_page_previews: boolean;
  *   until_date: number;
  * }} TelegramBot.ChatMemberRestricted
  */
@@ -580,6 +658,7 @@
  * @typedef {{
  *   chat: TelegramBot.Chat;
  *   from: TelegramBot.User;
+ *   user_chat_id: number;
  *   date: number;
  *   bio?: string;
  *   invite_link?: TelegramBot.ChatInviteLink;
@@ -589,7 +668,12 @@
 /**
  * @typedef {{
  *   can_send_messages?: boolean;
- *   can_send_media_messages?: boolean;
+ *   can_send_audios?: boolean;
+ *   can_send_documents?: boolean;
+ *   can_send_photos?: boolean;
+ *   can_send_videos?: boolean;
+ *   can_send_video_notes?: boolean;
+ *   can_send_voice_notes?: boolean;
  *   can_send_polls?: boolean;
  *   can_send_other_messages?: boolean;
  *   can_add_web_page_previews?: boolean;
@@ -671,6 +755,18 @@
 
 /**
  * @typedef {{
+ *   description: string;
+ * }} TelegramBot.BotDescription
+ */
+
+/**
+ * @typedef {{
+ *   short_description: string;
+ * }} TelegramBot.BotShortDescription
+ */
+
+/**
+ * @typedef {{
  *   type: string;
  * }} TelegramBot.MenuButtonCommands
  */
@@ -711,7 +807,7 @@
  * @typedef {{
  *   type: string;
  *   media: string;
- *   thumb?: TelegramBot.InputFile | string;
+ *   thumbnail?: TelegramBot.InputFile | string;
  *   caption?: string;
  *   parse_mode?: string;
  *   caption_entities?: TelegramBot.MessageEntity[];
@@ -727,7 +823,7 @@
  * @typedef {{
  *   type: string;
  *   media: string;
- *   thumb?: TelegramBot.InputFile | string;
+ *   thumbnail?: TelegramBot.InputFile | string;
  *   caption?: string;
  *   parse_mode?: string;
  *   caption_entities?: TelegramBot.MessageEntity[];
@@ -742,7 +838,7 @@
  * @typedef {{
  *   type: string;
  *   media: string;
- *   thumb?: TelegramBot.InputFile | string;
+ *   thumbnail?: TelegramBot.InputFile | string;
  *   caption?: string;
  *   parse_mode?: string;
  *   caption_entities?: TelegramBot.MessageEntity[];
@@ -756,7 +852,7 @@
  * @typedef {{
  *   type: string;
  *   media: string;
- *   thumb?: TelegramBot.InputFile | string;
+ *   thumbnail?: TelegramBot.InputFile | string;
  *   caption?: string;
  *   parse_mode?: string;
  *   caption_entities?: TelegramBot.MessageEntity[];
