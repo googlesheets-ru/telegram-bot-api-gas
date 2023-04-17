@@ -3,7 +3,11 @@ class TelegramBot {
   constructor(token) {
     this.token = token;
   }
-  getURL() {
+
+  /**
+   * @type {{string}}
+   */
+  get url() {
     return 'https://api.telegram.org/bot' + this.token;
   }
 
@@ -14,61 +18,72 @@ class TelegramBot {
    * @returns {globalThis.URL_Fetch.HTTPResponse}
    */
   getResponse(method, data) {
-    const httpResponse = UrlFetchApp.fetch(this.getURL() + '/' + method, {
+    const httpResponse = UrlFetchApp.fetch(this.url + '/' + method, {
       method: 'post',
       payload: data,
       muteHttpExceptions: true,
     });
-
     return httpResponse;
   }
 
+  /**
+   *
+   * @returns {TelegramBot.Update[]}
+   */
   getUpdates() {
-    return UrlFetchApp.fetch(`${this.getURL()}/getUpdates`);
+    return JSON.parse(this.getResponse('getUpdates').getContentText());
   }
 
   getMe() {
-    return this.getResponse('getMe').getContentText();
+    return JSON.parse(this.getResponse('getMe').getContentText());
   }
 
   getFile(fileId) {
-    return this.getResponse('getFile', { file_id: fileId }).getContentText();
+    return JSON.parse(this.getResponse('getFile', { file_id: fileId }).getContentText());
   }
 
   setWebhook(url) {
-    return this.getResponse('setWebhook', { url: url }).getContentText();
+    return JSON.parse(this.getResponse('setWebhook', { url: url }).getContentText());
   }
 
   getWebhookInfo() {
-    return this.getResponse('getWebhookInfo').getContentText();
+    return JSON.parse(this.getResponse('getWebhookInfo').getContentText());
   }
 
   sendMessage(chatId, text, parseMode) {
     parseMode = parseMode || '';
-    return this.getResponse('sendMessage', {
+    const httpResponse = this.getResponse('sendMessage', {
       chat_id: '' + chatId,
       text: text,
       parse_mode: parseMode,
-    }).getContentText();
+    });
+    const contentText = httpResponse.getContentText();
+    return JSON.parse(contentText);
   }
 
   sendMessageRaw(options) {
-    return this.getResponse('sendMessage', options).getContentText();
+    return JSON.parse(this.getResponse('sendMessage', options).getContentText());
   }
 
-  sendPhoto(chatId, photo, caption) {
-    return this.getResponse('sendPhoto', {
+  sendPhoto(chatId, photo, caption, parseMode) {
+    parseMode = parseMode || '';
+    const httpResponse = this.getResponse('sendPhoto', {
       chat_id: '' + chatId,
       photo: photo,
       caption: caption || '',
-    }).getContentText();
+      parse_mode: parseMode,
+    });
+    const contentText = httpResponse.getContentText();
+    return JSON.parse(contentText);
   }
 
   sendDocument(chatId, document, caption) {
-    return this.getResponse('sendDocument', {
-      chat_id: '' + chatId,
-      document: document,
-      caption: caption || '',
-    }).getContentText();
+    return JSON.parse(
+      this.getResponse('sendDocument', {
+        chat_id: '' + chatId,
+        document: document,
+        caption: caption || '',
+      }).getContentText(),
+    );
   }
 }

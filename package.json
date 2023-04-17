@@ -1,20 +1,35 @@
 {
-  "name": "telegram-bot-api-gas",
-  "version": "1.0.0",
+  "name": "empty-google-apps-script-project",
+  "version": "0.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "gulp start --part=prod --push-version --update-clients",
+    "dev": "gulp start --part=dev --watch",
+    "dev-version": "gulp start --part=dev --push-version",
+    "pull-dev": "cp ./settings/dev/.clasp.json ./ && json -I -f .clasp.json -e \"this.rootDir='src'\" && clasp pull && rm -rf ./settings/dev/assets && mv ./src/_assets ./settings/dev/assets",
+    "pull-prod": "cp ./settings/prod/.clasp.json ./ && json -I -f .clasp.json -e \"this.rootDir='src'\" && clasp pull && rm -rf ./settings/prod/assets && mv ./src/_assets ./settings/prod/assets",
+    "lnsett": "cd ./settings && rm -f .eslintrc && ln -s ./../src/.eslintrc .eslintrc",
+    "pretty": "prettier --write ."
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/contributorpw/telegram-bot-api-gas.git"
-  },
+  "type": "module",
   "keywords": [],
   "author": "",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/contributorpw/telegram-bot-api-gas/issues"
+  "license": "",
+  "devDependencies": {
+    "@google/clasp": "*",
+    "@types/google-apps-script": "*",
+    "clasp-types": "*",
+    "del": "*",
+    "eslint": "*",
+    "eslint-config-google": "*",
+    "eslint-config-prettier": "*",
+    "eslint-plugin-googleappsscript": "*",
+    "eslint-plugin-prettier": "*",
+    "gulp": "*",
+    "json": "*",
+    "prettier": "*"
   },
-  "homepage": "https://github.com/contributorpw/telegram-bot-api-gas#readme"
+  "devSettings": {
+    "watchDelay": 900
+  }
 }
